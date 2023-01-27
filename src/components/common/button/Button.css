@@ -1,0 +1,10 @@
+.primary {
+    color: whitesmoke;
+    background-color: orangered;
+    border: 10in black;
+}
+
+.secondary {
+    color: black;
+    background-color: gray;
+}
