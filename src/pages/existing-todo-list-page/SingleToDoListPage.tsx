@@ -80,6 +80,15 @@ function SingleToDoListPage(props: SingleToDoListPageProps) {
     setEntries([...entries, newEntry]);
   };
 
+  const handleOnSaveButtonClick = () => {
+    console.log("save the todo list");
+    localStorage.setItem(props.listName, JSON.stringify(entries));
+  };
+
+  const handleOnDeleteButtonClick = () => {
+    console.log("Delete the todo list.");
+  };
+
   return (
     <div>
       {todoEntries}
@@ -87,6 +96,17 @@ function SingleToDoListPage(props: SingleToDoListPageProps) {
         name="Add"
         isDisabled={false}
         handleOnButtonClick={handleOnAddButtonClick}
+      />
+      <hr />
+      <Button
+        name="Save"
+        isDisabled={false}
+        handleOnButtonClick={handleOnSaveButtonClick}
+      />
+      <Button
+        name="Delete"
+        isDisabled={false}
+        handleOnButtonClick={handleOnDeleteButtonClick}
       />
     </div>
   );
