@@ -1,6 +1,4 @@
-import { ToDoListNamesType } from "../../types/ToDoList";
-
-export const TODO_LIST_NAMES_KEY = "todo-list-names";
+import { ToDoListNamesType, TODO_LIST_NAMES_KEY } from "../../types/ToDoList";
 
 export const getToDoListNames = () => {
     return new Promise((resolve, reject) => {
