@@ -1,18 +1,22 @@
-import React, { Component } from "react";
+import React from "react";
 
 export type CheckBoxProps = {
+  id: string;
   isChecked: boolean;
-  handleCheckBoxChange: React.ChangeEventHandler<HTMLInputElement>;
+  handleCheckBoxChange: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: string
+  ) => void;
 };
 
 export default function CheckBox(props: CheckBoxProps) {
-  const { isChecked, handleCheckBoxChange } = props;
+  const { id, isChecked, handleCheckBoxChange } = props;
 
   return (
     <input
       type="checkbox"
       checked={isChecked}
-      onChange={handleCheckBoxChange}
+      onChange={(event) => handleCheckBoxChange(event, id)}
     />
   );
 }

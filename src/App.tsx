@@ -1,24 +1,14 @@
 import React from "react";
 import "./App.css";
-import Button from "./components/common/button/Button";
-import CheckBox from "./components/common/checkbox/CheckBox";
-import ToDoEntry from "./components/common/todoentry/ToDoEntry";
-import ToDoEntries from "./components/existingtodopage/todoentries/ToDoEntries";
+import CreateNewToDoListPage from "./page/create-new-todo-list/CreateNewToDoListPage";
+import ExistingToDosPage from "./page/existingtodopages/ExistingToDosPage";
+import ToDoApp from "./page/todo-app/ToDoApp";
 
 function App() {
-  const todoEntry1 = (
-    <ToDoEntry
-      isChecked={false}
-      handleCheckBoxChange={() => console.log("CheckBox state changed")}
-      value={"Monkey pitayi"}
-      handleOnEntryTextChange={() => console.log("Input changed")}
-    />
-  );
+  localStorage.clear();
   return (
     <div className="App">
-      <h1>App</h1>
-
-      {todoEntry1}
+      <ToDoApp />
     </div>
   );
 }

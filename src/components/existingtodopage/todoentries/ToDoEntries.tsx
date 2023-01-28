@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ToDoEntry, { ToDoEntryProps } from "../../common/todoentry/ToDoEntry";
 
-type ToDoEntriesProps = {
+export type ToDoEntriesProps = {
   todoEntries: ToDoEntryProps[];
 };
 
