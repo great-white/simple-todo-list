@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import {
+  getToDoListNames,
   saveToDoListName,
   SaveToDoListNameResponse,
+  GetToDoListNamesResponse,
 } from "../../api/todoListNames";
 import Button from "../../components/common/button/Button";
 import Input from "../../components/common/input/Input";
@@ -15,7 +17,7 @@ function CreateNewToDoListPage(props: CreateNewToDoListPageProps) {
     setName(event.target.value);
   };
 
-  const handleOnCreateButtonClick = () => {
+  const saveList = () => {
     // Perform API call.
     saveToDoListName(name)
       .then((response: SaveToDoListNameResponse) => {
@@ -24,6 +26,20 @@ function CreateNewToDoListPage(props: CreateNewToDoListPageProps) {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const handleOnCreateButtonClick = () => {
+    getToDoListNames()
+      .then((response: GetToDoListNamesResponse) => {
+        const listNames = response.items.map((item) => item.name);
+        if (listNames.includes(name)) {
+          alert("Duplicate name cannot be used. Please select another name.");
+        } else {
+          saveList();
+          setName("");
+        }
+      })
+      .catch((error) => {});
   };
 
   return (
