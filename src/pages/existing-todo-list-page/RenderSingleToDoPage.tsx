@@ -12,10 +12,6 @@ type ParamsType = {
 function RenderSingleToDoPage(props: RenderSingleToDoPageProps) {
   const { listName } = useParams<ParamsType>();
 
-  useEffect(() => {
-    console.log(`RenderSingleToDoPage ${listName}`);
-  });
-
   if (!listName) throw Error("listName should be present");
   return (
     <div className="todo-entries">

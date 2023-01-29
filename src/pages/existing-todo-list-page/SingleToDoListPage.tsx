@@ -1,8 +1,18 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../components/common/button/Button";
 import ToDoEntry from "../../components/common/todo-entry/ToDoEntry";
-import { ToDoEntriesType, ToDoEntryType } from "../../types/ToDoEntry";
+import {
+  createToDoEntry,
+  ToDoEntriesType,
+  ToDoEntryType,
+} from "../../types/ToDoEntry";
 import uuid from "react-uuid";
+import {
+  getToDoEntries,
+  GetToDoEntriesResponse,
+  saveToDoEntries,
+  SaveToDoEntriesResponse,
+} from "../../api/todoEntries";
 
 type SingleToDoListPageProps = {
   listName: string;
@@ -14,27 +24,24 @@ function SingleToDoListPage(props: SingleToDoListPageProps) {
 
   // Will be called only once.
   useEffect(() => {
-    const jsonItems = localStorage.getItem(listName);
-    const items: ToDoEntriesType = jsonItems ? JSON.parse(jsonItems) : [];
-    setEntries(items);
+    getToDoEntries(listName)
+      .then((response: GetToDoEntriesResponse) => {
+        setEntries(response.items);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const handleCheckBoxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     id: string
   ) => {
-    const newEntries = entries.map((entry) => {
-      if (entry.id === id) {
-        return {
-          ...entry,
-          isDone: event.target.checked,
-        };
-      } else {
-        return {
-          ...entry,
-        };
-      }
-    });
+    const newEntries = entries.map((entry) =>
+      entry.id === id
+        ? { ...entry, isDone: event.target.checked }
+        : { ...entry }
+    );
 
     setEntries(newEntries);
   };
@@ -71,18 +78,19 @@ function SingleToDoListPage(props: SingleToDoListPageProps) {
   ));
 
   const handleOnAddButtonClick = () => {
-    const newEntry: ToDoEntryType = {
-      id: uuid(),
-      isDone: false,
-      value: "",
-    };
-
+    const newEntry: ToDoEntryType = createToDoEntry("", false);
     setEntries([...entries, newEntry]);
   };
 
   const handleOnSaveButtonClick = () => {
     console.log("save the todo list");
-    localStorage.setItem(props.listName, JSON.stringify(entries));
+    saveToDoEntries(listName, entries)
+      .then((response: SaveToDoEntriesResponse) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleOnDeleteButtonClick = () => {

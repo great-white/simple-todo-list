@@ -11,7 +11,7 @@ export type ToDoListNamesType = ToDoListNameType[];
 
 export const createToDoListName = (name: string): ToDoListNameType => {
   return {
-    id: uuid(),
+    id: "List-" + uuid(),
     name: name,
   };
 };
