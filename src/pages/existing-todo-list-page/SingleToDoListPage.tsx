@@ -13,6 +13,7 @@ import {
   saveToDoEntries,
   SaveToDoEntriesResponse,
 } from "../../api/todoEntries";
+import { deleteToDoList } from "../../api/todoListNames";
 
 type SingleToDoListPageProps = {
   listName: string;
@@ -67,18 +68,6 @@ function SingleToDoListPage(props: SingleToDoListPageProps) {
     setEntries(newEntries);
   };
 
-  const todoEntries = entries.map((entry) => (
-    <ToDoEntry
-      key={entry.id}
-      id={entry.id}
-      isChecked={entry.isDone}
-      value={entry.value}
-      handleCheckBoxChange={handleCheckBoxChange}
-      handleOnInputChange={handleOnInputChange}
-      handleOnButtonClick={handleOnRemoveButtonClick}
-    />
-  ));
-
   const handleOnAddButtonClick = () => {
     const newEntry: ToDoEntryType = createToDoEntry("", false);
     setEntries([...entries, newEntry]);
@@ -96,11 +85,25 @@ function SingleToDoListPage(props: SingleToDoListPageProps) {
   };
 
   const handleOnDeleteButtonClick = () => {
-    console.log("Delete the todo list.");
+    deleteToDoList(props.listName);
+    navigate(-1);
   };
+
+  const todoEntries = entries.map((entry) => (
+    <ToDoEntry
+      key={entry.id}
+      id={entry.id}
+      isChecked={entry.isDone}
+      value={entry.value}
+      handleCheckBoxChange={handleCheckBoxChange}
+      handleOnInputChange={handleOnInputChange}
+      handleOnButtonClick={handleOnRemoveButtonClick}
+    />
+  ));
 
   return (
     <div>
+      <h3>{props.listName}</h3>
       {todoEntries}
       <Button
         name="Add"

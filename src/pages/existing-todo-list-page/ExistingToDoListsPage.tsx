@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  ToDoListNamesType,
-  ToDoListNameType,
-  TODO_LIST_NAMES_KEY,
-} from "../../types/ToDoList";
+import { ToDoListNamesType, ToDoListNameType } from "../../types/ToDoList";
 import { Link } from "react-router-dom";
 import {
   getToDoListNames,

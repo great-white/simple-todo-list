@@ -40,8 +40,6 @@ const createToDoListName = (name: string): ItemResponseWithFlag => {
 export const getToDoListNames = () => {
   return new Promise<GetToDoListNamesResponse>((resolve, reject) => {
     const items: ToDoListNamesType = fetchExistingToDoListNames();
-    console.log(items);
-
     resolve({
       items: items,
       status: 200,
@@ -74,11 +72,21 @@ export const restoreToDoLists = (listNames: string[]) => {
     const items: ItemResponseWithFlag[] = fetchToDoListNames();
     const updatedItems = items.map((item) =>
       listNames.includes(item.item.name)
-        ? { ...item, isDeleted: true }
+        ? { ...item, isDeleted: false }
         : { ...item }
     );
     saveToDoList(updatedItems);
     resolve({ status: 200 });
+  });
+};
+
+export const getDeletedToDoLists = () => {
+  return new Promise<GetToDoListNamesResponse>((resolve, reject) => {
+    const items: ToDoListNamesType = fetchDeletedToDoListNames();
+    resolve({
+      items: items,
+      status: 200,
+    });
   });
 };
 

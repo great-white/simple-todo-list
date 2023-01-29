@@ -28,6 +28,7 @@ function CreateNewToDoListPage(props: CreateNewToDoListPageProps) {
 
   return (
     <div>
+      <h2>Create new ToDo List</h2>
       <Input value={name} handleOnChange={handleOnNameChange} />{" "}
       <Button
         name="Create List"
