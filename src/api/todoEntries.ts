@@ -2,7 +2,14 @@ import { ToDoEntriesType } from "../types/ToDoEntry";
 
 const SAVED_ITEMS_KEY: string = "saved";
 
-type SavedItemsResponse = {
+type ItemsResponseWithFlag = {
+  [key: string]: {
+    isDeleted: boolean;
+    entries: ToDoEntriesType;
+  };
+};
+
+type ItemsResponse = {
   [key: string]: ToDoEntriesType;
 };
 
@@ -17,7 +24,7 @@ export type SaveToDoEntriesResponse = {
 
 export const getToDoEntries = (listName: string) => {
   return new Promise<GetToDoEntriesResponse>((resolve, reject) => {
-    const items: ToDoEntriesType = fetchToDoEntries(listName);
+    const items: ToDoEntriesType = fetchExistingToDoEntries(listName);
     resolve({
       status: 200,
       items: items,
@@ -27,8 +34,11 @@ export const getToDoEntries = (listName: string) => {
 
 export const saveToDoEntries = (listName: string, entries: ToDoEntriesType) => {
   return new Promise<SaveToDoEntriesResponse>((resolve, reject) => {
-    const items: SavedItemsResponse = fetchAllToDoEntries();
-    const updatedItems = { ...items, [listName]: entries };
+    const items: ItemsResponseWithFlag = fetchAllToDoEntries();
+    const updatedItems = {
+      ...items,
+      [listName]: { entries: entries, isDeleted: false },
+    };
     localStorage.setItem(SAVED_ITEMS_KEY, JSON.stringify(updatedItems));
     resolve({
       status: 200,
@@ -36,12 +46,39 @@ export const saveToDoEntries = (listName: string, entries: ToDoEntriesType) => {
   });
 };
 
-const fetchAllToDoEntries = () => {
-  const savedJsonItems = localStorage.getItem(SAVED_ITEMS_KEY);
-  return savedJsonItems ? JSON.parse(savedJsonItems) : {};
+const transform = (items: ItemsResponseWithFlag): ItemsResponse => {
+  const transformedItems = Object.entries(items).map(([key, value]) => [
+    key,
+    value.entries,
+  ]);
+  return Object.fromEntries(transformedItems);
 };
 
-const fetchToDoEntries = (listName: string) => {
-  const savedItems: SavedItemsResponse = fetchAllToDoEntries();
+const fetchAllToDoEntries = (): ItemsResponseWithFlag => {
+  const savedJsonItems = localStorage.getItem(SAVED_ITEMS_KEY);
+  const savedItems: ItemsResponseWithFlag = savedJsonItems
+    ? JSON.parse(savedJsonItems)
+    : {};
+  return savedItems;
+};
+
+const fetchFilteredToDoEntries = (
+  isDeleted: boolean
+): ItemsResponseWithFlag => {
+  const savedItems: ItemsResponseWithFlag = fetchAllToDoEntries();
+  const filteredItems = Object.entries(savedItems).filter(
+    ([key, value]) => value.isDeleted == isDeleted
+  );
+  return Object.fromEntries(filteredItems);
+};
+
+const fetchAllExistingToDoEntries = (): ItemsResponse =>
+  transform(fetchFilteredToDoEntries(false));
+
+const fetchAllDeletedToDoEntries = (): ItemsResponse =>
+  transform(fetchFilteredToDoEntries(true));
+
+const fetchExistingToDoEntries = (listName: string) => {
+  const savedItems: ItemsResponse = fetchAllExistingToDoEntries();
   return savedItems[listName] ? savedItems[listName] : [];
 };

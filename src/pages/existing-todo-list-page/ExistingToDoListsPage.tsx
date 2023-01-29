@@ -5,6 +5,10 @@ import {
   TODO_LIST_NAMES_KEY,
 } from "../../types/ToDoList";
 import { Link } from "react-router-dom";
+import {
+  getToDoListNames,
+  GetToDoListNamesResponse,
+} from "../../api/todoListNames";
 
 type ExistingToDoListsPageProps = {};
 
@@ -12,9 +16,13 @@ function ExistingToDoListsPage(props: ExistingToDoListsPageProps) {
   const [listNames, setListNames] = useState<ToDoListNamesType>([]);
 
   useEffect(() => {
-    const jsonItems = localStorage.getItem(TODO_LIST_NAMES_KEY);
-    const items: ToDoListNamesType = jsonItems ? JSON.parse(jsonItems) : [];
-    setListNames(items);
+    getToDoListNames()
+      .then((response: GetToDoListNamesResponse) => {
+        setListNames(response.items);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   const createToDoLink = (item: ToDoListNameType) => {
