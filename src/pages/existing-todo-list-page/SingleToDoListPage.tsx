@@ -6,7 +6,7 @@ import {
   ToDoEntriesType,
   ToDoEntryType,
 } from "../../types/ToDoEntry";
-import uuid from "react-uuid";
+import { useNavigate } from "react-router-dom";
 import {
   getToDoEntries,
   GetToDoEntriesResponse,
@@ -19,6 +19,8 @@ type SingleToDoListPageProps = {
 };
 
 function SingleToDoListPage(props: SingleToDoListPageProps) {
+  const navigate = useNavigate();
+
   const { listName } = props;
   const [entries, setEntries] = useState<ToDoEntriesType>([]);
 
@@ -106,6 +108,11 @@ function SingleToDoListPage(props: SingleToDoListPageProps) {
         handleOnButtonClick={handleOnAddButtonClick}
       />
       <hr />
+      <Button
+        name="Go Back"
+        isDisabled={false}
+        handleOnButtonClick={() => navigate(-1)}
+      />
       <Button
         name="Save"
         isDisabled={false}
