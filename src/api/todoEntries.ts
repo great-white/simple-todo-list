@@ -67,7 +67,7 @@ const fetchFilteredToDoEntries = (
 ): ItemsResponseWithFlag => {
   const savedItems: ItemsResponseWithFlag = fetchAllToDoEntries();
   const filteredItems = Object.entries(savedItems).filter(
-    ([key, value]) => value.isDeleted == isDeleted
+    ([key, value]) => value.isDeleted === isDeleted
   );
   return Object.fromEntries(filteredItems);
 };
@@ -75,6 +75,7 @@ const fetchFilteredToDoEntries = (
 const fetchAllExistingToDoEntries = (): ItemsResponse =>
   transform(fetchFilteredToDoEntries(false));
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const fetchAllDeletedToDoEntries = (): ItemsResponse =>
   transform(fetchFilteredToDoEntries(true));
 

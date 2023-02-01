@@ -6,8 +6,7 @@ import {
 } from "../../api/todoListNames";
 import DeletedToDoEntry from "../../components/advanced/deleted-todo-entry/DeletedToDoEntry";
 import Button from "../../components/common/button/Button";
-import { ToDoEntryType } from "../../types/ToDoEntry";
-import { ToDoListNamesType, ToDoListNameType } from "../../types/ToDoList";
+import { ToDoListNameType } from "../../types/ToDoList";
 
 type DeleteToDoEntryType = {
   isChecked: boolean;

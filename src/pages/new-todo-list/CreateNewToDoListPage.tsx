@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   getToDoListNames,
+  GetToDoListNamesResponse,
   saveToDoListName,
   SaveToDoListNameResponse,
-  GetToDoListNamesResponse,
 } from "../../api/todoListNames";
 import Button from "../../components/common/button/Button";
 import Input from "../../components/common/input/Input";

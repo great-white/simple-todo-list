@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import SingleToDoListPage from "./SingleToDoListPage";
 import "./RenderSingleToDoPage.css";
+import SingleToDoListPage from "./SingleToDoListPage";
 
 type RenderSingleToDoPageProps = {};
 

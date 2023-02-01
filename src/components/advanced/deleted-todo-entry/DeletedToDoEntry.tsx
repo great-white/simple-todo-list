@@ -1,5 +1,4 @@
 import React from "react";
-import CheckBox from "../../common/checkbox/CheckBox";
 import CheckBoxWithId from "../../common/checkbox/CheckBoxWithId";
 
 type DeletedToDoEntryProps = {

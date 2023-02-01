@@ -105,7 +105,7 @@ const transform = (items: ItemResponseWithFlag[]): ToDoListNamesType => {
 
 const fetchFilteredToDoListNames = (isDeleted: boolean): ToDoListNamesType => {
   const items = fetchToDoListNames();
-  const filteredItems = items.filter((item) => item.isDeleted == isDeleted);
+  const filteredItems = items.filter((item) => item.isDeleted === isDeleted);
   return transform(filteredItems);
 };
 
